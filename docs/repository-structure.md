@@ -70,8 +70,10 @@ version, lifecycle, and migration plan.
 
 1. Create or identify the owning `addons/<mod-name>/` directory.
 2. Add only the required behavior and resource pack folders.
-3. Give the mod a README with its purpose, namespace, Minecraft version, pack
-   relationship, deployment requirements, and public contracts.
+3. Give the mod a dedicated README based on the
+   [add-on documentation template](templates/addon-readme-template.md), with
+   its purpose, namespace, Minecraft version, pack relationship, deployment
+   requirements, validation expectations, and public contracts.
 4. Validate manifests, UUID uniqueness, JSON, references, and asset paths.
 5. Test the mod alone and with its declared dependencies, then inspect the
    Bedrock Content Log.

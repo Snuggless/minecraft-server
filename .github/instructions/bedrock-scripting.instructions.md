@@ -32,6 +32,18 @@ Minecraft Bedrock behavior-pack script.
 - Use targeted error reporting that identifies the operation and affected
   identifier; do not silently swallow Script API errors.
 
+## Code Documentation
+
+- Follow `docs/addon-documentation.md` for code comments.
+- Use JSDoc for exported or externally consumed APIs when their parameters,
+  return values, side effects, error behavior, or Bedrock lifecycle constraints
+  are not self-evident.
+- Use inline comments only to explain intent or non-obvious Bedrock constraints,
+  such as verified API compatibility, required reload behavior, scheduling
+  bounds, or manifest-to-output dependencies.
+- Do not comment syntax, duplicate identifier names, leave commented-out code,
+  or add unexplained `TODO` or `FIXME` markers.
+
 ## Testing
 
 - Run the existing compile and deployment workflow before in-game testing.

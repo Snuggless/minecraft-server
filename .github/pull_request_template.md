@@ -8,6 +8,8 @@ Consider each category for every pull request. Update it only when the change
 creates or changes a real need; explain why it is not needed otherwise.
 
 - [ ] Human documentation was added or updated, or is not needed because:
+- [ ] Every new add-on includes a completed README based on
+      `docs/templates/addon-readme-template.md`, or no add-on was created:
 - [ ] Repository or scoped instructions were added or updated, or are not
       needed because:
 - [ ] A project skill was added or updated, or is not needed because:
