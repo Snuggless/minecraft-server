@@ -1,7 +1,7 @@
 import { system, world } from "@minecraft/server";
 
 // Public protocol and storage limits. Keep history pages small enough for a Script API event payload.
-const REQUEST_EVENT = "snugg-currency:request-v1";
+const REQUEST_EVENT = "smm-currency:request-v1";
 const SCHEMA_VERSION = 1;
 const CURRENCY_SYMBOL = "e";
 const HISTORY_LIMIT = 10000;
@@ -9,7 +9,7 @@ const PAGE_LIMIT = 5;
 const BALANCE_SHARDS = 64;
 const OUTCOME_SHARDS = 64;
 const CHUNK_SIZE = 40;
-const META_PROPERTY = "snugg-currency:meta";
+const META_PROPERTY = "smm-currency:meta";
 const ADDRESS_SEGMENT = /^[a-z0-9_-]{1,24}$/;
 const CALLER_ID = /^[a-z0-9][a-z0-9_-]{0,31}$/;
 const REQUEST_ID = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,47}$/;
@@ -47,7 +47,7 @@ function parseRequest(message) {
   try {
     value = JSON.parse(message);
   } catch (error) {
-    console.warn(`[snugg-currency] Rejected malformed request JSON: ${error}`);
+    console.warn(`[smm-currency] Rejected malformed request JSON: ${error}`);
     return failureFromUnknownRequest("malformed_request");
   }
 
@@ -340,7 +340,7 @@ function persistMutation(meta, idempotencyKey, outcome, transaction, changes) {
   try {
     world.setDynamicProperties(writes);
   } catch (error) {
-    console.error(`[snugg-currency] Could not persist transaction ${idempotencyKey}: ${error}`);
+    console.error(`[smm-currency] Could not persist transaction ${idempotencyKey}: ${error}`);
     return { ok: false, code: "storage_error" };
   }
   return { ok: true };
@@ -408,7 +408,7 @@ function readMeta() {
   }
   const parsed = parseStoredJson(stored, "metadata");
   if (!parsed.ok || !isMeta(parsed.value)) {
-    console.error("[snugg-currency] Currency metadata is invalid. No request was processed.");
+    console.error("[smm-currency] Currency metadata is invalid. No request was processed.");
     return { ok: false, code: "storage_error" };
   }
   return parsed;
@@ -421,7 +421,7 @@ function readObject(property, operation) {
   }
   const parsed = parseStoredJson(stored, operation);
   if (!parsed.ok || !isRecord(parsed.value)) {
-    console.error(`[snugg-currency] Invalid ${operation} property ${property}.`);
+    console.error(`[smm-currency] Invalid ${operation} property ${property}.`);
     return { ok: false, code: "storage_error" };
   }
   return parsed;
@@ -434,7 +434,7 @@ function readArray(property, operation) {
   }
   const parsed = parseStoredJson(stored, operation);
   if (!parsed.ok || !Array.isArray(parsed.value)) {
-    console.error(`[snugg-currency] Invalid ${operation} property ${property}.`);
+    console.error(`[smm-currency] Invalid ${operation} property ${property}.`);
     return { ok: false, code: "storage_error" };
   }
   return parsed;
@@ -442,13 +442,13 @@ function readArray(property, operation) {
 
 function parseStoredJson(stored, operation) {
   if (typeof stored !== "string") {
-    console.error(`[snugg-currency] ${operation} property is not a string.`);
+    console.error(`[smm-currency] ${operation} property is not a string.`);
     return { ok: false, code: "storage_error" };
   }
   try {
     return { ok: true, value: JSON.parse(stored) };
   } catch (error) {
-    console.error(`[snugg-currency] Could not parse ${operation} property: ${error}`);
+    console.error(`[smm-currency] Could not parse ${operation} property: ${error}`);
     return { ok: false, code: "storage_error" };
   }
 }
@@ -466,13 +466,13 @@ function response(request, ok, code, data = {}) {
 
 function sendResponse(eventId, payload) {
   if (!eventId) {
-    console.warn(`[snugg-currency] Request rejected without a usable response event: ${payload.code}`);
+    console.warn(`[smm-currency] Request rejected without a usable response event: ${payload.code}`);
     return;
   }
   try {
     system.sendScriptEvent(eventId, JSON.stringify(payload));
   } catch (error) {
-    console.error(`[snugg-currency] Could not send ${payload.requestId ?? "unknown"} response to ${eventId}: ${error}`);
+    console.error(`[smm-currency] Could not send ${payload.requestId ?? "unknown"} response to ${eventId}: ${error}`);
   }
 }
 
@@ -510,12 +510,12 @@ function validBalance(value) {
 
 function balanceProperty(address) {
   // Sharding prevents one dynamic-property string from growing with every wallet.
-  return `snugg-currency:balances-${hash(address) % BALANCE_SHARDS}`;
+  return `smm-currency:balances-${hash(address) % BALANCE_SHARDS}`;
 }
 
 function outcomeProperty(key) {
   // Keep retry outcomes separate from the ordered outcome chunks used for pruning.
-  return `snugg-currency:outcome-map-${hash(key) % OUTCOME_SHARDS}`;
+  return `smm-currency:outcome-map-${hash(key) % OUTCOME_SHARDS}`;
 }
 
 function historyProperty(id) {
@@ -523,7 +523,7 @@ function historyProperty(id) {
 }
 
 function collectionProperty(name, id) {
-  return `snugg-currency:${name}-${id}`;
+  return `smm-currency:${name}-${id}`;
 }
 
 function hash(value) {
