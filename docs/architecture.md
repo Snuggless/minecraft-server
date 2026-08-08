@@ -11,7 +11,7 @@ one monolithic pack.
 
 ```text
 addons/
-└── <mod-name>/
+└── smm-<feature-name>/
     ├── behavior_pack/
     │   ├── manifest.json
     │   └── scripts/
@@ -30,8 +30,9 @@ worlds/
 
 ## Add-On Model
 
-Every feature lives in one `addons/<mod-name>/` directory, where `<mod-name>`
-is lowercase kebab-case. A behavior pack owns gameplay behavior, definitions,
+Every feature lives in one `addons/smm-<feature-name>/` directory, where
+`<feature-name>` is lowercase kebab-case. The `smm-` prefix is required for
+every add-on directory. A behavior pack owns gameplay behavior, definitions,
 and Script API code. A paired resource pack exists only when the feature owns
 client assets such as textures, sounds, models, UI, or client entities.
 

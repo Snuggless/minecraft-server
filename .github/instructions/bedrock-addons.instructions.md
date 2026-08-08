@@ -27,11 +27,11 @@ packs, resource packs, skin packs, world templates, or Script API code.
 - Keep gameplay definitions in behavior packs and visual, audio, client, UI,
   and localization assets in resource packs.
 - In this repository, each feature owns
-  `addons/<mod-name>/behavior_pack/` and an optional paired
-  `addons/<mod-name>/resource_pack/`. Do not add content to a shared
+  `addons/smm-<feature-name>/behavior_pack/` and an optional paired
+  `addons/smm-<feature-name>/resource_pack/`. Do not add content to a shared
   repository-wide pack.
-- Use lowercase kebab-case `<mod-name>` directories and a lowercase namespace
-  owned by that mod. Keep every feature independently deployable and
+- Use lowercase kebab-case `smm-<feature-name>` directories and a lowercase
+  namespace owned by that mod. Keep every feature independently deployable and
   versionable.
 - Give every manifest header and module a distinct UUID. Never reuse a UUID
   from another pack, module, or template.

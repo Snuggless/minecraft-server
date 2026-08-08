@@ -11,7 +11,7 @@ project skill in `.github/skills/`.
 ## Repository Layout
 
 ```text
-addons/<mod-name>/
+addons/smm-<feature-name>/
 ├── behavior_pack/
 │   ├── manifest.json
 │   └── scripts/
@@ -25,8 +25,9 @@ docs/                     # Architecture and supported integration contracts
 worlds/development/       # Development-world configuration only
 ```
 
-Create one lowercase kebab-case folder per feature under `addons/`. Keep all
-gameplay behavior, scripts, and behavior definitions in that mod's
+Create one lowercase kebab-case folder prefixed with `smm-` per feature under
+`addons/`, such as `addons/smm-currency/`. Keep all gameplay behavior, scripts,
+and behavior definitions in that mod's
 `behavior_pack/`. Add `resource_pack/` only when the mod owns textures,
 sounds, models, client entities, UI, or other resource content.
 

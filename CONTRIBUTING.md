@@ -15,7 +15,8 @@ operators who will run it.
 
 ## Add-On Contributions
 
-- Put each feature in one lowercase kebab-case `addons/<mod-name>/` directory.
+- Put each feature in one lowercase kebab-case
+  `addons/smm-<feature-name>/` directory.
 - Keep gameplay content in its `behavior_pack/`. Add a `resource_pack/` only
   when the feature owns client assets such as textures, sounds, models, UI, or
   client entities.

@@ -10,8 +10,9 @@ Add-On.
 
 ## Workflow
 
-1. Identify the owning `addons/<mod-name>/` feature directory, or create one
-   lowercase kebab-case directory for a new independently deployable feature.
+1. Identify the owning `addons/smm-<feature-name>/` feature directory, or
+   create one lowercase kebab-case directory prefixed with `smm-` for a new
+   independently deployable feature.
 2. Confirm whether the Add-On needs behavior content, resource content, or
    both. Select stable by default; require an explicit preview target for
    experimental features.

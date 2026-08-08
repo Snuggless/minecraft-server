@@ -14,7 +14,7 @@ changes a documented integration contract. Target stable Minecraft Bedrock by
 default and do not add a resource pack, script module, dependency, or shared
 package without a feature that requires it.
 
-Every new add-on requires its own `addons/<mod-name>/README.md`. Follow
+Every new add-on requires its own `addons/smm-<feature-name>/README.md`. Follow
 `docs/addon-documentation.md` and
 `docs/templates/addon-readme-template.md`; keep the README current when its
 operation, compatibility, configuration, deployment, or public contracts

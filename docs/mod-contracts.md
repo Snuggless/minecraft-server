@@ -22,12 +22,12 @@ private unless they appear here.
 
 | Field | Value |
 | --- | --- |
-| Owner | `snugg-currency` |
+| Owner | `smm-currency` |
 | Consumers | Any add-on that needs server currency balances or ledger mutations |
 | Version | `1` |
 | Kind | event |
 | Identifier | `snugg-currency:request-v1` |
-| Lifecycle | Available while the Snugg Currency behavior pack is active. Balances and bounded ledger state persist with the world. |
+| Lifecycle | Available while the SMM Currency behavior pack is active. Balances and bounded ledger state persist with the world. |
 | Permissions | The caller is responsible for wallet authorization. Operators must restrict `/scriptevent` access to trusted callers. |
 | Failure behavior | The service returns a response with `ok: false` and a machine-readable `code`; it does not mutate balances for rejected requests. |
 
@@ -89,6 +89,10 @@ Version 1 is stable for all documented fields and result codes. Future
 incompatible protocol changes must use a new request event identifier and
 retain version 1 during a documented migration period.
 
+The owning add-on was renamed from `snugg-currency` to `smm-currency`. The
+`snugg-currency:*` identifiers remain supported to preserve existing world
+ledger data and consumers; this ownership rename does not change the protocol.
+
 ### `server-command:chat-routing`
 
 | Field | Value |
@@ -123,8 +127,8 @@ Copy this section when registering a public interface.
 
 | Field | Value |
 | --- | --- |
-| Owner | `<mod-name>` |
-| Consumers | `<mod-name>` |
+| Owner | `smm-<feature-name>` |
+| Consumers | `smm-<feature-name>` |
 | Version | `1` |
 | Kind | `event`, `dynamic property`, `scoreboard objective`, or `command` |
 | Identifier | `<owner>:<contract-name>` |

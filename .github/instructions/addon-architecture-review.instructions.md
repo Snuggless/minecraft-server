@@ -12,7 +12,8 @@ these checks alongside `addon-monorepo.instructions.md`.
 ## Review Priorities
 
 - Report gameplay or client assets placed outside the owning
-  `addons/<mod-name>/` pack structure, including shared repository-wide packs.
+  `addons/smm-<feature-name>/` pack structure, including shared
+  repository-wide packs.
 - Report direct runtime imports between add-ons or a feature-specific addition
   to `packages/server-core/`.
 - Report a shared-source addition without at least two genuine build-time

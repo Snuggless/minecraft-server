@@ -11,7 +11,8 @@ dependencies explicit.
 
 ## Add-On Ownership
 
-- Create one lowercase kebab-case feature directory at `addons/<mod-name>/`.
+- Create one lowercase kebab-case feature directory prefixed with `smm-` at
+  `addons/smm-<feature-name>/`.
 - Place gameplay content in `behavior_pack/`.
 - Create `resource_pack/` only when the mod owns client assets such as
   textures, sounds, models, UI, or client entities.

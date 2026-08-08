@@ -1,8 +1,8 @@
-# Snugg Currency
+# SMM Currency
 
 ## Purpose
 
-Snugg Currency is the server's core currency ledger. It stores balances in
+SMM Currency is the server's core currency ledger. It stores balances in
 whole emerald units (`e`) and exposes a versioned Script API event contract for
 other add-ons to query balances and record deposits, withdrawals, and
 transfers. It does not add, remove, or otherwise affect in-game items.
@@ -14,10 +14,13 @@ transfers. It does not add, remove, or otherwise affect in-game items.
 | Namespace | `snugg-currency` |
 | Minecraft Bedrock target | `1.26.30` or later |
 | Release channel | Stable |
-| Behavior pack | `addons/snugg-currency/behavior_pack` |
+| Behavior pack | `addons/smm-currency/behavior_pack` |
 | Resource pack | Not required |
 
 The behavior pack depends on stable `@minecraft/server` `2.8.0`.
+Its established `snugg-currency` namespace remains unchanged so existing
+world ledger data and Script API consumers continue to work after the add-on
+directory and display-name migration.
 
 ## Pack Relationship
 
@@ -27,7 +30,7 @@ client assets, gameplay definitions, or resource references.
 ## Installation and Deployment
 
 1. Deploy `behavior_pack` to the Bedrock server's behavior-pack location.
-2. Activate **Snugg Currency** for the server world before add-ons that use
+2. Activate **SMM Currency** for the server world before add-ons that use
    its public event contract.
 3. Restart the world or server after installing or updating the behavior pack.
    `/reload` is not sufficient for a new or changed Script API manifest.
@@ -58,6 +61,8 @@ processed as new requests.
 The version 1 `snugg-currency:ledger` event contract is registered in
 [mod-contracts.md](../../docs/mod-contracts.md). Consumers send JSON requests
 to `snugg-currency:request-v1` and specify a caller-owned response event ID.
+These established identifiers remain intentionally unchanged after the
+`smm-currency` add-on rename.
 
 ## Validation and Diagnostics
 
