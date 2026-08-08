@@ -1,0 +1,70 @@
+name: Bug report
+description: Report incorrect server or add-on behavior with enough detail to reproduce it.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Include the Bedrock version and relevant Content Log output. Remove player
+        information, secrets, and unrelated log entries before submitting.
+
+  - type: input
+    id: addon
+    attributes:
+      label: Affected add-on or component
+      description: Name the `smm-*` add-on, pack, script, or tool involved.
+      placeholder: smm-example
+    validations:
+      required: true
+
+  - type: input
+    id: bedrock-version
+    attributes:
+      label: Minecraft Bedrock version
+      description: Include the full version and whether it is stable or Preview.
+      placeholder: 1.21.x stable
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest sequence that consistently triggers the issue.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: content-log
+    attributes:
+      label: Relevant Content Log output
+      description: Paste only relevant errors or warnings, or write "None observed".
+      render: text
+      placeholder: |
+        [Scripting][error] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Include pack versions, screenshots, recordings, or other relevant details.

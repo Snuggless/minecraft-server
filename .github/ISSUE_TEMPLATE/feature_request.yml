@@ -1,0 +1,72 @@
+name: Feature request
+description: Propose a new server capability or an improvement to an existing add-on.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the outcome you need. Keep new gameplay features scoped to one
+        independently deployable add-on unless a documented integration is required.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What player, server, or maintainer need does this address?
+      placeholder: Players need...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the expected behavior and user experience.
+      placeholder: When..., the server should...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected area
+      description: Which repository area would own this work?
+      options:
+        - New add-on
+        - Existing add-on
+        - Shared server core
+        - Development world or tooling
+        - Documentation
+        - Unsure
+    validations:
+      required: true
+
+  - type: input
+    id: addon
+    attributes:
+      label: Add-on or component
+      description: Name the affected `smm-*` add-on or component, if known.
+      placeholder: smm-example
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: List observable conditions that must be true when the feature is complete.
+      placeholder: |
+        - When..., the system shall...
+        - When..., the system shall...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe other approaches or workarounds, if any.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add mockups, examples, links, or compatibility considerations.
