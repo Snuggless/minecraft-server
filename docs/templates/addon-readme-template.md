@@ -40,6 +40,11 @@ operational action is required.
 List only interfaces intended for use by other add-ons. Each contract must
 also be registered in [mod-contracts.md](../../docs/mod-contracts.md).
 
+When this add-on is a core service or exposes a supported public cross-add-on
+API, link to its `INTEGRATION.md` guide. The guide must provide consumer setup,
+complete usage examples, permissions, failures, compatibility, and migration
+details.
+
 State `None. This add-on exposes no public cross-mod contracts.` when
 applicable.
 

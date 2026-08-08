@@ -54,6 +54,10 @@ packs, resource packs, skin packs, world templates, or Script API code.
 - Treat dynamic properties, scoreboard objectives, Script API events, and
   commands as private unless they are registered in `docs/mod-contracts.md`.
 - Document every supported public interface before another mod consumes it.
+- Give every core service add-on, and every add-on that exposes a supported
+  public cross-mod API, an `INTEGRATION.md` guide beside its README. Link it
+  from the README and include exact consumer-facing identifiers, setup,
+  examples, permissions, failures, and compatibility or migration constraints.
 
 ## Content Quality
 

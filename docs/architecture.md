@@ -52,6 +52,12 @@ is supported only when its event, property, scoreboard objective, or command
 is recorded in [mod-contracts.md](mod-contracts.md). This preserves feature
 boundaries and lets individual add-ons evolve safely.
 
+Every core service add-on, and every add-on that exposes a supported public
+cross-mod API, owns an `INTEGRATION.md` guide beside its README. The guide
+explains safe consumer implementation, while
+[mod-contracts.md](mod-contracts.md) remains the concise registry of supported
+identifiers and compatibility commitments.
+
 ## Documentation Responsibilities
 
 Each add-on must include a dedicated README that records its purpose, namespace,

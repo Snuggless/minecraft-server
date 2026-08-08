@@ -41,6 +41,13 @@ dependencies explicit.
   another mod depends on it.
 - Include the owner, consumers, version compatibility, and migration plan for
   every changed or removed contract.
+- Require `addons/smm-<feature-name>/INTEGRATION.md` for every core service
+  add-on and every add-on that exposes a supported public cross-mod API. Link
+  it from the add-on README and keep it aligned with the contract registry.
+- Use the integration guide for consumer setup, public identifiers, payloads or
+  command arguments, complete examples, permissions, failure behavior, and
+  compatibility or migration constraints. Do not require it for non-core
+  add-ons with no supported public cross-mod API.
 - Prefer small, namespaced interfaces with explicit ownership over implicit
   shared state.
 

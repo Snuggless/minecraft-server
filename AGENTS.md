@@ -59,6 +59,11 @@ version-sensitive manifests, schemas, or Script API declarations.
   commands as private unless registered in `docs/mod-contracts.md`.
 - Document every supported public integration in `docs/mod-contracts.md` before
   another mod consumes it.
+- Every core service add-on, and every add-on that exposes a supported public
+  cross-mod API, must include `INTEGRATION.md` beside its README. The guide
+  must show consumers how to use the API safely and link to its registered
+  contracts; the contract registry remains the concise compatibility source of
+  truth.
 - Do not use another mod's private namespace, filesystem paths, or internal
   data conventions.
 

@@ -35,6 +35,31 @@ steps, configuration, pack relationship, public contract, or operational
 behavior changes. Keep implementation details in source code and public,
 cross-add-on interfaces in [mod-contracts.md](mod-contracts.md).
 
+## Developer API Documentation
+
+A core service add-on, or an add-on that exposes a supported public cross-add-on
+API, must include an `INTEGRATION.md` file beside its README. This applies to
+any add-on that intentionally exposes a registered public event, dynamic
+property, scoreboard objective, command, or equivalent developer-facing
+contract.
+
+The integration guide must:
+
+- link to the corresponding contract in [mod-contracts.md](mod-contracts.md);
+- identify compatible Minecraft and Script API versions, dependencies, and
+  consumer deployment or activation order;
+- document the exact public identifiers, payloads or command arguments,
+  response or result shapes, lifecycle, permissions, and failure behavior;
+- include at least one complete consumer example using only the public
+  contract; and
+- explain retry, idempotency, migration, or operational constraints when they
+  affect consumers.
+
+Keep the contract registry concise and authoritative for compatibility. Use the
+integration guide for implementation detail and consumer examples. A non-core
+add-on without a supported public cross-add-on API does not need
+`INTEGRATION.md`.
+
 ## Repository Documentation
 
 Update the shared documentation in the same change when applicable:
@@ -43,6 +68,7 @@ Update the shared documentation in the same change when applicable:
 | --- | --- |
 | Directory layout or ownership boundary | [architecture.md](architecture.md) and [repository-structure.md](repository-structure.md) |
 | Public event, dynamic property, scoreboard objective, or command | [mod-contracts.md](mod-contracts.md) before another add-on consumes it |
+| Supported public cross-add-on API | Owning add-on `INTEGRATION.md`, linked from its README |
 | Public server chat command | [chat-commands.md](chat-commands.md), the owning add-on README, and `mod-contracts.md` when another add-on consumes it |
 | Contributor workflow or durable repository convention | This guide or the relevant `.github/instructions/` file |
 | Reusable AI workflow that needs more than an instruction | The relevant `.github/skills/` skill |

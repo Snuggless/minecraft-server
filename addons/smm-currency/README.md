@@ -64,6 +64,10 @@ to `snugg-currency:request-v1` and specify a caller-owned response event ID.
 These established identifiers remain intentionally unchanged after the
 `smm-currency` add-on rename.
 
+For request schemas, responses, error handling, idempotent retries, and a
+consumer behavior-pack example, see the
+[SMM Currency Integration Guide](INTEGRATION.md).
+
 ## Validation and Diagnostics
 
 Validate the behavior-pack manifest and JavaScript before deployment. After a
