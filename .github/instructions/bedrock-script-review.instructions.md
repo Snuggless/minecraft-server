@@ -24,6 +24,10 @@ manifest declarations. Apply these checks alongside
   operation or affected identifier when those details are available.
 - Report a feature that depends on a one-time tick when it must remain
   repeatable after reload or world lifecycle changes.
+- Report a changed Script API event or other externally consumed script
+  interface when the owning add-on lacks the required `INTEGRATION.md` guide or
+  the guide no longer accurately documents consumer setup, identifiers,
+  responses, permissions, failure behavior, and compatibility.
 
 ## Finding Threshold
 

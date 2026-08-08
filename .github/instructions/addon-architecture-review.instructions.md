@@ -23,6 +23,11 @@ these checks alongside `addon-monorepo.instructions.md`.
 - Report a changed public cross-mod interface that lacks its owner, consumers,
   compatibility version, lifecycle, or migration plan in
   `docs/mod-contracts.md`.
+- Report a core service add-on, or an add-on that adds or changes a supported
+  public cross-mod API, without an owning `INTEGRATION.md` guide, a README link
+  to that guide, or documentation of consumer setup, exact public identifiers,
+  usage examples, permissions, failure behavior, and compatibility or migration
+  constraints.
 - Report a new add-on without its README, or a change to documented operation,
   compatibility, configuration, deployment, pack relationship, or public
   contract that leaves the owning README inaccurate.

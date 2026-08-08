@@ -36,6 +36,11 @@ Add-on data, events, scoreboard objectives, dynamic properties, and commands
 are private by default. Do not consume another add-on's internals. Register a
 public cross-add-on interface in
 [mod contracts](docs/mod-contracts.md) before another add-on depends on it.
+A core service add-on, or an add-on that exposes a supported public cross-add-on
+API, must also provide an `INTEGRATION.md` guide beside its README. The guide
+must explain consumer setup, the public identifiers and request or command
+shapes, authorization and failure behavior, compatibility, and a complete usage
+example.
 
 Follow [the server chat-command grammar](docs/chat-commands.md) for public
 chat commands. Document command usage, permissions, and operational effects in
@@ -52,6 +57,9 @@ Update documentation with the change:
   model or ownership boundaries change.
 - Update [mod contracts](docs/mod-contracts.md) for public integration
   changes.
+- Update the owning add-on's `INTEGRATION.md` when changing a supported
+  cross-add-on API, including its setup, request and response semantics,
+  permissions, error behavior, compatibility, or migration path.
 - Follow [the add-on documentation guide](docs/addon-documentation.md) for
   add-on README and code-comment requirements.
 
