@@ -23,7 +23,7 @@ private unless they appear here.
 | Field | Value |
 | --- | --- |
 | Owner | `smm-currency` |
-| Consumers | Any add-on that needs server currency balances or ledger mutations |
+| Consumers | Any compatible add-on that needs server currency balances or ledger mutations; known consumer: `smm-mob-rewards` |
 | Version | `1` |
 | Kind | event |
 | Identifier | `snugg-currency:request-v1` |
