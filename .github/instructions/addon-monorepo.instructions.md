@@ -17,9 +17,11 @@ dependencies explicit.
   textures, sounds, models, UI, or client entities.
 - Keep each pack's `manifest.json` inside its owning add-on. Do not create a
   shared manifest or a repository-wide behavior/resource pack.
-- Add a `README.md` to every mod describing its purpose, namespace, public
-  contracts, pack relationship, deployment requirements, and required
-  Minecraft version.
+- Add a dedicated `README.md` to every new mod before it is merged. Follow
+  `docs/addon-documentation.md` and
+  `docs/templates/addon-readme-template.md`; it must describe the purpose,
+  namespace, compatibility target, public contracts, pack relationship,
+  deployment, validation, and operational requirements.
 
 ## Shared Source and Runtime Boundaries
 
@@ -44,6 +46,8 @@ dependencies explicit.
 ## Documentation and Validation
 
 - Update `docs/architecture.md` when the directory model changes.
+- Update the owning add-on README whenever its configuration, compatibility,
+  deployment, behavior, pack relationship, or public contract changes.
 - Keep tooling under `tools/` and development-world configuration under
   `worlds/development/`; do not place server-specific tooling inside an add-on.
 - Validate the changed pack in isolation and alongside declared dependencies.

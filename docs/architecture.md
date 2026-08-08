@@ -53,7 +53,10 @@ boundaries and lets individual add-ons evolve safely.
 
 ## Documentation Responsibilities
 
-Each add-on README records its purpose, namespace, required Minecraft version,
-pack relationship, deployment requirements, and public contracts. Update this
-document when the repository directory model changes, and update
-[mod-contracts.md](mod-contracts.md) whenever a public interface changes.
+Each add-on must include a dedicated README that records its purpose, namespace,
+required Minecraft version, pack relationship, deployment requirements,
+validation expectations, and public contracts. Follow the
+[Add-On Documentation and Code Commenting Guide](addon-documentation.md) and
+its README template. Update this document when the repository directory model
+changes, and update [mod-contracts.md](mod-contracts.md) whenever a public
+interface changes.

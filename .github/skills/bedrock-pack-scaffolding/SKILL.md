@@ -28,8 +28,9 @@ Add-On.
 7. If the feature exposes events, dynamic properties, scoreboard objectives,
    or commands for another mod, register the interface in
    `docs/mod-contracts.md`. Do not add direct runtime imports between packs.
-8. Add the mod's `README.md` with its purpose, namespace, required Minecraft
-   version, pack relationship, deployment requirements, and public contracts.
+8. Add the mod's dedicated `README.md` from
+   `docs/templates/addon-readme-template.md`, following
+   `docs/addon-documentation.md`.
 9. Configure the existing project build/deploy workflow or document the
    intended `development_behavior_packs` and `development_resource_packs`
    deployment target.
