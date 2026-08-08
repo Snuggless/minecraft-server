@@ -8,8 +8,8 @@ operable, and safe to change without relying on tribal knowledge.
 
 ## Required Add-On Documentation
 
-Every new add-on shall include a dedicated `addons/<mod-name>/README.md` before
-it is merged. Start from the
+Every new add-on shall include a dedicated
+`addons/smm-<feature-name>/README.md` before it is merged. Start from the
 [add-on README template](templates/addon-readme-template.md) and replace all
 placeholders. Do not create an add-on with an empty, generic, or copied README.
 

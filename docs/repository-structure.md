@@ -12,7 +12,7 @@ Follow these rules when adding a feature or moving existing content.
 
 ```text
 addons/
-└── <mod-name>/
+└── smm-<feature-name>/
     ├── behavior_pack/
     │   ├── manifest.json
     │   └── scripts/
@@ -29,9 +29,9 @@ worlds/
 └── development/               # Development-world configuration
 ```
 
-Create one lowercase kebab-case directory per feature under `addons/`, such
-as `addons/player-homes/`. Do not create a shared behavior pack or resource
-pack for unrelated features.
+Create one lowercase kebab-case directory prefixed with `smm-` per feature
+under `addons/`, such as `addons/smm-player-homes/`. Do not create a shared
+behavior pack or resource pack for unrelated features.
 
 ## Choosing Pack Folders
 
@@ -68,7 +68,7 @@ version, lifecycle, and migration plan.
 
 ## Contributor Checklist
 
-1. Create or identify the owning `addons/<mod-name>/` directory.
+1. Create or identify the owning `addons/smm-<feature-name>/` directory.
 2. Add only the required behavior and resource pack folders.
 3. Give the mod a dedicated README based on the
    [add-on documentation template](templates/addon-readme-template.md), with

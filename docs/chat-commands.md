@@ -62,7 +62,7 @@ or display the configured prefix supplied by their chat-command integration.
 1. Select an unclaimed lowercase kebab-case alias for a new add-on, or use the
    alias already owned by the add-on.
 2. Add the command and its `help` output in the owning add-on.
-3. Update the owning `addons/<mod-name>/README.md` with usage, arguments,
+3. Update the owning `addons/smm-<feature-name>/README.md` with usage, arguments,
    permissions, and operational effects.
 4. Register a public cross-add-on command integration in
    [mod-contracts.md](mod-contracts.md) before another add-on consumes it.

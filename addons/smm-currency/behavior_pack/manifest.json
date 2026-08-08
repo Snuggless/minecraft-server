@@ -1,7 +1,7 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Snugg Currency",
+    "name": "SMM Currency",
     "description": "Persistent emerald currency accounts for server add-ons.",
     "uuid": "667c12b2-232a-4ff2-94bd-04e471159052",
     "version": [1, 0, 0],
