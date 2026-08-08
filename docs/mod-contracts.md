@@ -91,6 +91,8 @@ retain version 1 during a documented migration period.
 
 The `smm-currency:*` identifiers are stable and remain supported to preserve
 existing world ledger data and consumers.
+Pre-rename request and storage identifiers are still accepted for backward
+compatibility, but new integrations should use `smm-currency:*`.
 
 ### `server-command:chat-routing`
 

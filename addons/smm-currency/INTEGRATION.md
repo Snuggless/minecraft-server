@@ -27,6 +27,9 @@ Use the following request event exactly:
 smm-currency:request-v1
 ```
 
+Pre-rename request identifiers remain accepted for compatibility, but consumer
+packs should publish and target `smm-currency:*` identifiers.
+
 ## Request and Response Flow
 
 1. Subscribe to the consumer-owned response event during script startup.

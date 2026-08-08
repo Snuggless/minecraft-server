@@ -60,6 +60,8 @@ processed as new requests.
 The version 1 `smm-currency:ledger` event contract is registered in
 [mod-contracts.md](../../docs/mod-contracts.md). Consumers send JSON requests
 to `smm-currency:request-v1` and specify a caller-owned response event ID.
+Pre-rename request and storage identifiers remain accepted for world
+compatibility, but new integrations should use `smm-currency:*`.
 
 For request schemas, responses, error handling, idempotent retries, and a
 consumer behavior-pack example, see the
