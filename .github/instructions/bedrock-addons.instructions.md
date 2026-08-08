@@ -26,6 +26,13 @@ packs, resource packs, skin packs, world templates, or Script API code.
 
 - Keep gameplay definitions in behavior packs and visual, audio, client, UI,
   and localization assets in resource packs.
+- In this repository, each feature owns
+  `addons/<mod-name>/behavior_pack/` and an optional paired
+  `addons/<mod-name>/resource_pack/`. Do not add content to a shared
+  repository-wide pack.
+- Use lowercase kebab-case `<mod-name>` directories and a lowercase namespace
+  owned by that mod. Keep every feature independently deployable and
+  versionable.
 - Give every manifest header and module a distinct UUID. Never reuse a UUID
   from another pack, module, or template.
 - Use a unique, lowercase namespace for custom identifiers. Keep identifiers,
@@ -35,6 +42,18 @@ packs, resource packs, skin packs, world templates, or Script API code.
 - Treat `manifest.json` as a load boundary: validate JSON structure, module
   types, UUIDs, versions, dependencies, and script entries before concluding
   a change is complete.
+- Use manifest format version 2 for stable packs. Do not introduce manifest
+  version 3 unless preview support is explicitly requested.
+
+## Add-On Integration Boundaries
+
+- Do not use direct runtime imports between add-ons. Minecraft loads each pack
+  independently.
+- Keep shared source build-time-only in `packages/server-core/`, and bundle it
+  into every consuming behavior pack.
+- Treat dynamic properties, scoreboard objectives, Script API events, and
+  commands as private unless they are registered in `docs/mod-contracts.md`.
+- Document every supported public interface before another mod consumes it.
 
 ## Content Quality
 
