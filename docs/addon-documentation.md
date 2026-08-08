@@ -43,6 +43,7 @@ Update the shared documentation in the same change when applicable:
 | --- | --- |
 | Directory layout or ownership boundary | [architecture.md](architecture.md) and [repository-structure.md](repository-structure.md) |
 | Public event, dynamic property, scoreboard objective, or command | [mod-contracts.md](mod-contracts.md) before another add-on consumes it |
+| Public server chat command | [chat-commands.md](chat-commands.md), the owning add-on README, and `mod-contracts.md` when another add-on consumes it |
 | Contributor workflow or durable repository convention | This guide or the relevant `.github/instructions/` file |
 | Reusable AI workflow that needs more than an instruction | The relevant `.github/skills/` skill |
 
