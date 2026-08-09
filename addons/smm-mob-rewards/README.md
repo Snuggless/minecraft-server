@@ -24,7 +24,7 @@ Currency version `1.0.0`.
 This add-on contains one behavior pack and no resource pack because it has no
 client assets. Its manifest requires the SMM Currency behavior pack, whose
 public Script Event ledger contract it uses. It sends deposits to
-`snugg-currency:request-v1` and receives asynchronous results on its
+`smm-currency:request-v1` and receives asynchronous results on its
 caller-owned `smm-mob-rewards:currency-response-v1` event.
 
 ## Installation and Deployment
@@ -55,7 +55,7 @@ are skipped and reported as script errors during pack startup.
 ## Public Contracts
 
 None. This add-on exposes no public cross-mod contracts. It consumes the
-version 1 `snugg-currency:ledger` contract registered in
+version 1 `smm-currency:ledger` contract registered in
 [mod-contracts.md](../../docs/mod-contracts.md). Implementation requirements
 for the currency request, response, idempotency, and error handling are in the
 [SMM Currency Integration Guide](../smm-currency/INTEGRATION.md).

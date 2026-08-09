@@ -1,7 +1,7 @@
 import { system, world } from "@minecraft/server";
 
 // Currency is independently loaded, so rewards use its documented Script Event contract.
-const CURRENCY_REQUEST_EVENT = "snugg-currency:request-v1";
+const CURRENCY_REQUEST_EVENT = "smm-currency:request-v1";
 const CURRENCY_RESPONSE_EVENT = "smm-mob-rewards:currency-response-v1";
 const CALLER_ID = "mob-rewards";
 // The ledger deduplicates mutations by caller and request ID; keep IDs unique across reloads.

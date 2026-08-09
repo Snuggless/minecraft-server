@@ -16,17 +16,19 @@ consumer safely.
 - Target Minecraft Bedrock `1.26.30` or later with stable
   `@minecraft/server` `2.8.0`.
 - Choose a lowercase, caller-owned response event ID. Its namespace must not
-  be `snugg-currency`.
+  be `smm-currency`.
 - Enforce authorization in the consumer before sending a request. Currency
   accepts requests from trusted callers; it does not decide who may mutate a
   wallet.
 
-The established protocol identifiers remain `snugg-currency:*` after the
-add-on's rename to `smm-currency`. Use the following request event exactly:
+Use the following request event exactly:
 
 ```text
-snugg-currency:request-v1
+smm-currency:request-v1
 ```
+
+Pre-rename request identifiers remain accepted for compatibility, but consumer
+packs should publish and target `smm-currency:*` identifiers.
 
 ## Request and Response Flow
 
@@ -52,7 +54,7 @@ Replace `shops` with the consumer add-on's owned namespace and ensure
 ```javascript
 import { system } from "@minecraft/server";
 
-const REQUEST_EVENT = "snugg-currency:request-v1";
+const REQUEST_EVENT = "smm-currency:request-v1";
 const RESPONSE_EVENT = "shops:currency-response";
 
 function createRequestId() {
@@ -246,6 +248,6 @@ their own records after receiving a successful response.
 Restart the world or server after installing or updating SMM Currency; `/reload`
 does not load a changed Script API manifest. On an integration failure, inspect
 the Bedrock Content Log and script output for the request ID and
-`[snugg-currency]` messages. Verify that both packs are active, the request
-uses `snugg-currency:request-v1`, and the response event ID is owned by and
+`[smm-currency]` messages. Verify that both packs are active, the request
+uses `smm-currency:request-v1`, and the response event ID is owned by and
 subscribed to by the consumer.

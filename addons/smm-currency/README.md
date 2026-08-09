@@ -11,16 +11,15 @@ transfers. It does not add, remove, or otherwise affect in-game items.
 
 | Item | Value |
 | --- | --- |
-| Namespace | `snugg-currency` |
+| Namespace | `smm-currency` |
 | Minecraft Bedrock target | `1.26.30` or later |
 | Release channel | Stable |
 | Behavior pack | `addons/smm-currency/behavior_pack` |
 | Resource pack | Not required |
 
 The behavior pack depends on stable `@minecraft/server` `2.8.0`.
-Its established `snugg-currency` namespace remains unchanged so existing
-world ledger data and Script API consumers continue to work after the add-on
-directory and display-name migration.
+Its `smm-currency` namespace is the stable identifier for world ledger data and
+Script API consumers.
 
 ## Pack Relationship
 
@@ -58,11 +57,11 @@ processed as new requests.
 
 ## Public Contracts
 
-The version 1 `snugg-currency:ledger` event contract is registered in
+The version 1 `smm-currency:ledger` event contract is registered in
 [mod-contracts.md](../../docs/mod-contracts.md). Consumers send JSON requests
-to `snugg-currency:request-v1` and specify a caller-owned response event ID.
-These established identifiers remain intentionally unchanged after the
-`smm-currency` add-on rename.
+to `smm-currency:request-v1` and specify a caller-owned response event ID.
+Pre-rename request and storage identifiers remain accepted for world
+compatibility, but new integrations should use `smm-currency:*`.
 
 For request schemas, responses, error handling, idempotent retries, and a
 consumer behavior-pack example, see the
@@ -72,7 +71,7 @@ consumer behavior-pack example, see the
 
 Validate the behavior-pack manifest and JavaScript before deployment. After a
 world restart, inspect the Bedrock Content Log and script output for
-`snugg-currency` manifest, module, or storage errors. A successful request
+`smm-currency` manifest, module, or storage errors. A successful request
 returns a JSON response on the caller-supplied event; malformed requests and
 storage failures produce an explicit result code where a valid response event
 was supplied.

@@ -18,7 +18,7 @@ private unless they appear here.
 
 ## Registered Contracts
 
-### `snugg-currency:ledger`
+### `smm-currency:ledger`
 
 | Field | Value |
 | --- | --- |
@@ -26,12 +26,12 @@ private unless they appear here.
 | Consumers | Any compatible add-on that needs server currency balances or ledger mutations; known consumer: `smm-mob-rewards` |
 | Version | `1` |
 | Kind | event |
-| Identifier | `snugg-currency:request-v1` |
+| Identifier | `smm-currency:request-v1` |
 | Lifecycle | Available while the SMM Currency behavior pack is active. Balances and bounded ledger state persist with the world. |
 | Permissions | The caller is responsible for wallet authorization. Operators must restrict `/scriptevent` access to trusted callers. |
 | Failure behavior | The service returns a response with `ok: false` and a machine-readable `code`; it does not mutate balances for rejected requests. |
 
-Consumers send a JSON object to `snugg-currency:request-v1`:
+Consumers send a JSON object to `smm-currency:request-v1`:
 
 ```json
 {
@@ -89,9 +89,10 @@ Version 1 is stable for all documented fields and result codes. Future
 incompatible protocol changes must use a new request event identifier and
 retain version 1 during a documented migration period.
 
-The owning add-on was renamed from `snugg-currency` to `smm-currency`. The
-`snugg-currency:*` identifiers remain supported to preserve existing world
-ledger data and consumers; this ownership rename does not change the protocol.
+The `smm-currency:*` identifiers are stable and remain supported to preserve
+existing world ledger data and consumers.
+Pre-rename request and storage identifiers are still accepted for backward
+compatibility, but new integrations should use `smm-currency:*`.
 
 ### `server-command:chat-routing`
 

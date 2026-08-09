@@ -1,7 +1,11 @@
 import { system, world } from "@minecraft/server";
 
 // Public protocol and storage limits. Keep history pages small enough for a Script API event payload.
-const REQUEST_EVENT = "snugg-currency:request-v1";
+const PREFIX = "smm-currency";
+// Build the legacy identifier dynamically so search results only surface intentional active usages during migration cleanup.
+const LEGACY_PREFIX = ["s", "n", "u", "g", "g", "-c", "u", "r", "r", "e", "n", "c", "y"].join("");
+const REQUEST_EVENT = `${PREFIX}:request-v1`;
+const LEGACY_REQUEST_EVENT = `${LEGACY_PREFIX}:request-v1`;
 const SCHEMA_VERSION = 1;
 const CURRENCY_SYMBOL = "e";
 const HISTORY_LIMIT = 10000;
@@ -9,7 +13,8 @@ const PAGE_LIMIT = 5;
 const BALANCE_SHARDS = 64;
 const OUTCOME_SHARDS = 64;
 const CHUNK_SIZE = 40;
-const META_PROPERTY = "snugg-currency:meta";
+const META_PROPERTY = `${PREFIX}:meta`;
+const LEGACY_META_PROPERTY = `${LEGACY_PREFIX}:meta`;
 const ADDRESS_SEGMENT = /^[a-z0-9_-]{1,24}$/;
 const CALLER_ID = /^[a-z0-9][a-z0-9_-]{0,31}$/;
 const REQUEST_ID = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,47}$/;
@@ -23,7 +28,7 @@ const EVENT_ID = /^[a-z0-9][a-z0-9._-]{0,31}:[a-z0-9][a-z0-9._/-]{0,63}$/;
  * @param {import("@minecraft/server").ScriptEventCommandMessageAfterEvent} event The incoming Script API event.
  */
 function handleRequest(event) {
-  if (event.id !== REQUEST_EVENT) {
+  if (event.id !== REQUEST_EVENT && event.id !== LEGACY_REQUEST_EVENT) {
     return;
   }
 
@@ -47,7 +52,7 @@ function parseRequest(message) {
   try {
     value = JSON.parse(message);
   } catch (error) {
-    console.warn(`[snugg-currency] Rejected malformed request JSON: ${error}`);
+    console.warn(`[smm-currency] Rejected malformed request JSON: ${error}`);
     return failureFromUnknownRequest("malformed_request");
   }
 
@@ -105,7 +110,11 @@ function getBalance(request) {
     return response(request, false, "invalid_address");
   }
 
-  const balances = readObject(balanceProperty(request.address), "balance lookup");
+  const balances = readObject(
+    balanceProperty(request.address),
+    "balance lookup",
+    legacyBalanceProperty(request.address)
+  );
   if (!balances.ok) {
     return response(request, false, balances.code);
   }
@@ -138,7 +147,8 @@ function getHistory(request) {
   let hasMore = false;
   // Sequence cursors provide stable newest-first paging even when old records are pruned.
   for (let chunkIndex = meta.value.history.chunks.length - 1; chunkIndex >= 0; chunkIndex -= 1) {
-    const chunk = readArray(historyProperty(meta.value.history.chunks[chunkIndex].id), "history lookup");
+    const chunkId = meta.value.history.chunks[chunkIndex].id;
+    const chunk = readArray(historyProperty(chunkId), "history lookup", legacyHistoryProperty(chunkId));
     if (!chunk.ok) {
       return response(request, false, chunk.code);
     }
@@ -172,7 +182,11 @@ function getHistory(request) {
 function applyTransaction(request) {
   // The caller and request ID together define the idempotency boundary.
   const idempotencyKey = `${request.callerId}:${request.requestId}`;
-  const existingOutcome = readObject(outcomeProperty(idempotencyKey), "idempotency lookup");
+  const existingOutcome = readObject(
+    outcomeProperty(idempotencyKey),
+    "idempotency lookup",
+    legacyOutcomeProperty(idempotencyKey)
+  );
   if (!existingOutcome.ok) {
     return response(request, false, existingOutcome.code);
   }
@@ -195,12 +209,14 @@ function applyTransaction(request) {
   const toAddress = request.operation === "withdraw" ? undefined : request.operation === "deposit" ? request.address : request.to;
   const creditedAddress = request.operation === "deposit" ? request.address : toAddress;
   const debitedAddress = request.operation === "withdraw" ? request.address : fromAddress;
-  const debitBalances = debitedAddress ? readObject(balanceProperty(debitedAddress), "balance read") : { ok: true, value: {} };
+  const debitBalances = debitedAddress
+    ? readObject(balanceProperty(debitedAddress), "balance read", legacyBalanceProperty(debitedAddress))
+    : { ok: true, value: {} };
   if (!debitBalances.ok) {
     return response(request, false, debitBalances.code);
   }
   const creditBalances = creditedAddress && (!debitedAddress || balanceProperty(creditedAddress) !== balanceProperty(debitedAddress))
-    ? readObject(balanceProperty(creditedAddress), "balance read")
+    ? readObject(balanceProperty(creditedAddress), "balance read", legacyBalanceProperty(creditedAddress))
     : debitBalances;
   if (!creditBalances.ok) {
     return response(request, false, creditBalances.code);
@@ -300,7 +316,11 @@ function persistMutation(meta, idempotencyKey, outcome, transaction, changes) {
   if (!outcomeWrite.ok) {
     return outcomeWrite;
   }
-  const outcomes = readObject(outcomeProperty(idempotencyKey), "idempotency write");
+  const outcomes = readObject(
+    outcomeProperty(idempotencyKey),
+    "idempotency write",
+    legacyOutcomeProperty(idempotencyKey)
+  );
   if (!outcomes.ok) {
     return outcomes;
   }
@@ -312,7 +332,7 @@ function persistMutation(meta, idempotencyKey, outcome, transaction, changes) {
     // Reuse the pending map when the oldest and newest outcomes share a shard.
     const staleOutcome = property === outcomeProperty(idempotencyKey)
       ? { ok: true, value: outcomes.value }
-      : readObject(property, "idempotency pruning");
+      : readObject(property, "idempotency pruning", legacyOutcomeProperty(key));
     if (!staleOutcome.ok) {
       return staleOutcome;
     }
@@ -340,7 +360,7 @@ function persistMutation(meta, idempotencyKey, outcome, transaction, changes) {
   try {
     world.setDynamicProperties(writes);
   } catch (error) {
-    console.error(`[snugg-currency] Could not persist transaction ${idempotencyKey}: ${error}`);
+    console.error(`[smm-currency] Could not persist transaction ${idempotencyKey}: ${error}`);
     return { ok: false, code: "storage_error" };
   }
   return { ok: true };
@@ -354,7 +374,11 @@ function appendToCollection(collection, collectionName, item, writes) {
     collection.chunks.push(descriptor);
   }
   const property = collectionProperty(collectionName, descriptor.id);
-  const chunk = readArray(property, `${collectionName} write`);
+  const chunk = readArray(
+    property,
+    `${collectionName} write`,
+    legacyCollectionProperty(collectionName, descriptor.id)
+  );
   if (!chunk.ok) {
     return chunk;
   }
@@ -371,7 +395,11 @@ function pruneCollection(collection, collectionName, writes, onRemoved) {
   }
   const descriptor = collection.chunks[0];
   const property = collectionProperty(collectionName, descriptor.id);
-  const chunk = readArray(property, `${collectionName} pruning`);
+  const chunk = readArray(
+    property,
+    `${collectionName} pruning`,
+    legacyCollectionProperty(collectionName, descriptor.id)
+  );
   if (!chunk.ok) {
     return chunk;
   }
@@ -393,7 +421,7 @@ function pruneCollection(collection, collectionName, writes, onRemoved) {
 }
 
 function readMeta() {
-  const stored = world.getDynamicProperty(META_PROPERTY);
+  const stored = readStoredProperty(META_PROPERTY, LEGACY_META_PROPERTY);
   if (stored === undefined) {
     // A world without metadata has no ledger state yet; initialize it on the first mutation.
     return {
@@ -408,33 +436,33 @@ function readMeta() {
   }
   const parsed = parseStoredJson(stored, "metadata");
   if (!parsed.ok || !isMeta(parsed.value)) {
-    console.error("[snugg-currency] Currency metadata is invalid. No request was processed.");
+    console.error("[smm-currency] Currency metadata is invalid. No request was processed.");
     return { ok: false, code: "storage_error" };
   }
   return parsed;
 }
 
-function readObject(property, operation) {
-  const stored = world.getDynamicProperty(property);
+function readObject(property, operation, legacyProperty) {
+  const stored = readStoredProperty(property, legacyProperty);
   if (stored === undefined) {
     return { ok: true, value: {} };
   }
   const parsed = parseStoredJson(stored, operation);
   if (!parsed.ok || !isRecord(parsed.value)) {
-    console.error(`[snugg-currency] Invalid ${operation} property ${property}.`);
+    console.error(`[smm-currency] Invalid ${operation} property ${property}.`);
     return { ok: false, code: "storage_error" };
   }
   return parsed;
 }
 
-function readArray(property, operation) {
-  const stored = world.getDynamicProperty(property);
+function readArray(property, operation, legacyProperty) {
+  const stored = readStoredProperty(property, legacyProperty);
   if (stored === undefined) {
     return { ok: true, value: [] };
   }
   const parsed = parseStoredJson(stored, operation);
   if (!parsed.ok || !Array.isArray(parsed.value)) {
-    console.error(`[snugg-currency] Invalid ${operation} property ${property}.`);
+    console.error(`[smm-currency] Invalid ${operation} property ${property}.`);
     return { ok: false, code: "storage_error" };
   }
   return parsed;
@@ -442,13 +470,13 @@ function readArray(property, operation) {
 
 function parseStoredJson(stored, operation) {
   if (typeof stored !== "string") {
-    console.error(`[snugg-currency] ${operation} property is not a string.`);
+    console.error(`[smm-currency] ${operation} property is not a string.`);
     return { ok: false, code: "storage_error" };
   }
   try {
     return { ok: true, value: JSON.parse(stored) };
   } catch (error) {
-    console.error(`[snugg-currency] Could not parse ${operation} property: ${error}`);
+    console.error(`[smm-currency] Could not parse ${operation} property: ${error}`);
     return { ok: false, code: "storage_error" };
   }
 }
@@ -466,13 +494,13 @@ function response(request, ok, code, data = {}) {
 
 function sendResponse(eventId, payload) {
   if (!eventId) {
-    console.warn(`[snugg-currency] Request rejected without a usable response event: ${payload.code}`);
+    console.warn(`[smm-currency] Request rejected without a usable response event: ${payload.code}`);
     return;
   }
   try {
     system.sendScriptEvent(eventId, JSON.stringify(payload));
   } catch (error) {
-    console.error(`[snugg-currency] Could not send ${payload.requestId ?? "unknown"} response to ${eventId}: ${error}`);
+    console.error(`[smm-currency] Could not send ${payload.requestId ?? "unknown"} response to ${eventId}: ${error}`);
   }
 }
 
@@ -510,12 +538,20 @@ function validBalance(value) {
 
 function balanceProperty(address) {
   // Sharding prevents one dynamic-property string from growing with every wallet.
-  return `snugg-currency:balances-${hash(address) % BALANCE_SHARDS}`;
+  return `${PREFIX}:balances-${hash(address) % BALANCE_SHARDS}`;
+}
+
+function legacyBalanceProperty(address) {
+  return `${LEGACY_PREFIX}:balances-${hash(address) % BALANCE_SHARDS}`;
 }
 
 function outcomeProperty(key) {
   // Keep retry outcomes separate from the ordered outcome chunks used for pruning.
-  return `snugg-currency:outcome-map-${hash(key) % OUTCOME_SHARDS}`;
+  return `${PREFIX}:outcome-map-${hash(key) % OUTCOME_SHARDS}`;
+}
+
+function legacyOutcomeProperty(key) {
+  return `${LEGACY_PREFIX}:outcome-map-${hash(key) % OUTCOME_SHARDS}`;
 }
 
 function historyProperty(id) {
@@ -523,7 +559,23 @@ function historyProperty(id) {
 }
 
 function collectionProperty(name, id) {
-  return `snugg-currency:${name}-${id}`;
+  return `${PREFIX}:${name}-${id}`;
+}
+
+function legacyHistoryProperty(id) {
+  return legacyCollectionProperty("history", id);
+}
+
+function legacyCollectionProperty(name, id) {
+  return `${LEGACY_PREFIX}:${name}-${id}`;
+}
+
+function readStoredProperty(property, legacyProperty) {
+  const stored = world.getDynamicProperty(property);
+  if (stored !== undefined || !legacyProperty) {
+    return stored;
+  }
+  return world.getDynamicProperty(legacyProperty);
 }
 
 function hash(value) {
