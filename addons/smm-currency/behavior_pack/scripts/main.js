@@ -2,6 +2,7 @@ import { system, world } from "@minecraft/server";
 
 // Public protocol and storage limits. Keep history pages small enough for a Script API event payload.
 const PREFIX = "smm-currency";
+// Build the legacy identifier dynamically so search results only surface intentional active usages during migration cleanup.
 const LEGACY_PREFIX = ["s", "n", "u", "g", "g", "-c", "u", "r", "r", "e", "n", "c", "y"].join("");
 const REQUEST_EVENT = `${PREFIX}:request-v1`;
 const LEGACY_REQUEST_EVENT = `${LEGACY_PREFIX}:request-v1`;
